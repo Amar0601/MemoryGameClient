@@ -17,6 +17,7 @@ export const Suite = (props) => {
                                     game={props.game}
                                     handleSuiteData={props.handleSuiteData}
                                     handleSetRoundData={props.handleSetRoundData}
+                                    roundData={props.roundData}
                                 />
                             </Col>)
                 }

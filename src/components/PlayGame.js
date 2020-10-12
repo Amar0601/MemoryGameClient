@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Suite } from './Suites';
 import ModalPopup from './Modal';
-import { Row, Container, Button, Badge } from 'reactstrap'
+import { Row, Container, Button, Badge, Alert } from 'reactstrap'
 import axios from 'axios';
 import ErrorCounter from './ErrorCounter'
 import Timer from './Timer';
@@ -12,6 +12,8 @@ const PlayGame = (props) => {
     const [active, setActive] = useState(true);
     const [interval, setinterval] = useState(null);
     const [modal, setModal] = useState(props.isOpen);
+    const [alertVisible, setAlertVisible] = useState(false);
+    const [alertMessage, setAlertMessage] = useState();
     
     const toggle = () => setModal(!modal);
 
@@ -54,6 +56,14 @@ const PlayGame = (props) => {
         setSuiteTwoData(suiteTwoData.map((element) => ({ "data": element.data, "visibility": false })));
     }
 
+    const showMessage = (msgText) => {
+        setAlertMessage(msgText);
+        setAlertVisible(true);
+        setTimeout(()=>{
+            setAlertVisible(false);
+        },2000)
+    }
+
     useEffect(() => {
         if (active) {
             if (interval === null) {
@@ -78,6 +88,8 @@ const PlayGame = (props) => {
                             removeBothCards(res.data);
                             // check game status and sto timer.
                             checkStatus();
+                            // show message
+                            showMessage("Well played...");
                         } else {
                             // Hide card content i.e set visibility property
                             setTimeout(() => {
@@ -85,6 +97,7 @@ const PlayGame = (props) => {
                             }, 3000);
 
                             handleErrorCount(errorCount + 1)
+                            showMessage("Ohhh! try again...");
                         }
 
                         setRoundData({ game });
@@ -139,7 +152,11 @@ const PlayGame = (props) => {
             <Container style={{ "margin-top": "5px" }}>
                 <Row>
                     <Timer seconds={seconds} />                    
-                    <div className="col-sm-6"></div>
+                    <div className="col-sm-6 text-center">
+                        <Alert color="success" isOpen={alertVisible} >
+                            {alertMessage}
+                        </Alert>
+                    </div>
                     <ErrorCounter errorCount={errorCount} />
                 </Row>
             </Container>
@@ -150,6 +167,7 @@ const PlayGame = (props) => {
                     game={game}
                     handleSuiteData={handleSuiteOneData}
                     handleSetRoundData={handleSetRoundData}
+                    roundData={roundData}
                 />
 
                 <hr style={{ "border-top": "10px solid rgba(0,0,0,.1)" }} />
@@ -160,6 +178,7 @@ const PlayGame = (props) => {
                     game={game}
                     handleSuiteData={handleSuiteTwoData}
                     handleSetRoundData={handleSetRoundData}
+                    roundData={roundData}
                 />
             </Container>
         </div>
