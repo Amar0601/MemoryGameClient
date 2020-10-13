@@ -44,7 +44,7 @@ const HomePage = ({history}) => {
                                         Contains 2 suits with 5 cards in each.
                                     </CardText>
                                     <br />
-                                    <Button value="easy" onClick={handleLevelClick} color="success">Button</Button>
+                                    <Button value="easy" onClick={handleLevelClick} color="success">Play</Button>
                                 </CardBody>
                             </Card>
                         </Col>
@@ -57,7 +57,7 @@ const HomePage = ({history}) => {
                                         Contains 2 suits with 10 cards in each.
                                     </CardText>
                                     <br />
-                                    <Button value="medium" onClick={handleLevelClick} color="warning">Button</Button>
+                                    <Button value="medium" onClick={handleLevelClick} color="warning">Play</Button>
                                 </CardBody>
                             </Card>
                         </Col>
@@ -70,7 +70,7 @@ const HomePage = ({history}) => {
                                         Contains 2 suits with 25 cards in each.
                             </CardText>
                                     <br />
-                                    <Button value="hard" onClick={handleLevelClick} color="danger">Button</Button>
+                                    <Button value="hard" onClick={handleLevelClick} color="danger">Play</Button>
                                 </CardBody>
                             </Card>
                         </Col>

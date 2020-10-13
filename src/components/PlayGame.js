@@ -14,6 +14,7 @@ const PlayGame = (props) => {
     const [modal, setModal] = useState(props.isOpen);
     const [alertVisible, setAlertVisible] = useState(false);
     const [alertMessage, setAlertMessage] = useState();
+    const [alertColor, setAlertColor] = useState();
     
     const toggle = () => setModal(!modal);
 
@@ -56,7 +57,8 @@ const PlayGame = (props) => {
         setSuiteTwoData(suiteTwoData.map((element) => ({ "data": element.data, "visibility": false })));
     }
 
-    const showMessage = (msgText) => {
+    const showMessage = (flag, msgText) => {
+        setAlertColor(flag ? "success" : "danger");
         setAlertMessage(msgText);
         setAlertVisible(true);
         setTimeout(()=>{
@@ -89,7 +91,7 @@ const PlayGame = (props) => {
                             // check game status and sto timer.
                             checkStatus();
                             // show message
-                            showMessage("Well played...");
+                            showMessage(res.data.match, "Well played...");
                         } else {
                             // Hide card content i.e set visibility property
                             setTimeout(() => {
@@ -97,7 +99,7 @@ const PlayGame = (props) => {
                             }, 3000);
 
                             handleErrorCount(errorCount + 1)
-                            showMessage("Ohhh! try again...");
+                            showMessage(res.data.match, "Ohhh! try again...");
                         }
 
                         setRoundData({ game });
@@ -115,14 +117,23 @@ const PlayGame = (props) => {
     }
 
     const [suiteOneData, setSuiteOneData] = useState(props.location.state.suiteOneCards);
-    const handleSuiteOneData = (newData) => {
+    const handleSuiteOneData = (newData, roundData) => {
         const visible = suiteOneData.filter((element) => element.visibility === true);
         if (visible.length === 0) {
             setSuiteOneData(suiteOneData.map((element) => {
-                if (element.data === newData)
-                    return { "data": element.data, "visibility": true }
-                else
-                    return { "data": element.data, "visibility": false }
+                if (element.data === newData){
+                    if(roundData.card2 !== undefined) {
+                        const style = roundData.card2 === newData ? {"border": "1px solid green"} : {"border": "1px solid red"};
+                        return { "data": element.data, "visibility": true, style};
+                    } else {
+                        return { "data": element.data, "visibility": true, style: {"border": "1px solid green"}};
+                    }
+                    
+                }
+                else{
+                    return { "data": element.data, "visibility": false, style: {}};
+                }
+                    
             }));
             return true;
         } else {
@@ -131,14 +142,22 @@ const PlayGame = (props) => {
     }
 
     const [suiteTwoData, setSuiteTwoData] = useState(props.location.state.suiteTwoCards);
-    const handleSuiteTwoData = (newData) => {
+    const handleSuiteTwoData = (newData, roundData) => {
         const visible = suiteTwoData.filter((element) => element.visibility === true);
         if (visible.length === 0) {
             setSuiteTwoData(suiteTwoData.map((element) => {
-                if (element.data === newData)
-                    return { "data": element.data, "visibility": true }
-                else
-                    return { "data": element.data, "visibility": false }
+                if (element.data === newData){
+                    if(roundData.card1 !== undefined) {
+                        const style = roundData.card1 === newData ? {"border": "1px solid green"} : {"border": "1px solid red"};
+                        return { "data": element.data, "visibility": true, style};
+                    } else {
+                        return { "data": element.data, "visibility": true, style: {"border": "1px solid green"}};
+                    }
+                    
+                }
+                else{
+                    return { "data": element.data, "visibility": false, style: {}};
+                }
             }));
             return true;
         } else {
@@ -153,7 +172,7 @@ const PlayGame = (props) => {
                 <Row>
                     <Timer seconds={seconds} />                    
                     <div className="col-sm-6 text-center">
-                        <Alert color="success" isOpen={alertVisible} >
+                        <Alert color={alertColor} isOpen={alertVisible} >
                             {alertMessage}
                         </Alert>
                     </div>
