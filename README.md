@@ -2,12 +2,12 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Available Scripts
 
-First of all you need install all the dependencies with issueing following command from MemoryGameClient folder.
+First of all you need install all the dependencies with issueing following command from project directory i.e. MemoryGameClient folder.
 ### `npm install`
 
-In the project directory, you can run:
+In the project directory i.e. MemoryGameClient, you can run:
 
-### `yarn start`
+### `npm start`
 
 Runs the app in the development mode.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
