@@ -2,6 +2,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Available Scripts
 
+First of all you need install all the dependencies with issueing following command from MemoryGameClient folder.
+### `npm install`
+
 In the project directory, you can run:
 
 ### `yarn start`
